@@ -119,16 +119,14 @@ document.addEventListener('DOMContentLoaded', function() {
         if (event.type == 'submit') event.preventDefault();
     }
 
-    fetch('./dataset.json')
-        .then((res) => {
-		return res.json();
-	})
-        .then((data) => {
-		console.log(data);
-        })
-	.catch((err) => {
-		console.log(err);
-	});
+	fetch('./dataset.json')
+        .then(res => res.json())
+        .then(data => {
+            window.dataset = data;
+            currentSet = window.dataset;
+            window.controls.updateResults(resultsTable, window.dataset);
+            doSearch({ type: 'none' });
+        });
 
     form.submit(doSearch);
 
