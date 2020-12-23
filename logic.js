@@ -120,10 +120,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     fetch('./dataset.json')
-        .then(function(res){
-		res.json();
+        .then((res) => {
+		return res.json();
 	})
-        .then(function(data) {
+        .then((data) => {
 		console.log(data);
         });
 
