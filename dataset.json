@@ -1,12 +1,1 @@
-{
-    "tipid": "1",
-    "line": " Logging into FTP to discover the web directory source"
-},
-{
-    "tipid": "2",
-    "line": " Ffuf to fuzz web servers"
-},
-{
-    "tipid": "3",
-    "line": " Proxycap to proxy windows traffic"
-}
+{"tipid": "1","line": " Logging into FTP to discover the web directory source"},{"tipid": "2","line": " Ffuf to fuzz web servers"},{"tipid": "3","line": " Proxycap to proxy windows traffic"}
