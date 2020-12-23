@@ -120,12 +120,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     fetch('./dataset.json')
-        .then(res => res.json())
-        .then(data => {
-            window.dataset = data;
-            currentSet = window.dataset;
-            window.controls.updateResults(resultsTable, window.dataset);
-            doSearch({ type: 'none' });
+        .then(function(res){
+		res.json();
+	})
+        .then(function(data) {
+		console.log(data);
         });
 
     form.submit(doSearch);
