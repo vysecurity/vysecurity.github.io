@@ -28,7 +28,7 @@ var controls = {
         }
 
         dataset.forEach(e => {
-            if (e.line.toLowerCase().match(regex) || e.topid.toLowerCase().match(regex)) results.push(e);
+            if (e.line.toLowerCase().match(regex) || e.tipid.toLowerCase().match(regex)) results.push(e);
         });
         return results;
     },
