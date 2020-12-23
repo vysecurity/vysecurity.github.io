@@ -1,8 +1,6 @@
 //var searchResultFormat = '<tr><td>$machine</td><td>$line</td><td><a href="$link" target="_blank">YouTube</a></td></tr>';
 var searchResultFormat = '<tr><td>$tipid</td><td align="left">$line</td></tr>';
 var totalLimit = 250;
-var linkTemplate = 'https://youtube.com/watch?v=$video&t=$time';
-var linkTemplateAcademy = 'https://academy.hackthebox.eu/module/details/$course';
 var replaceStrings = ['HackTheBox - ', 'VulnHub - '];
 
 var controls = {
@@ -62,7 +60,6 @@ var controls = {
             results.forEach(r => {
                 //Not the fastest but it makes for easier to read code :>
 
-		timeInSeconds = r.timestamp.minutes * 60 + r.timestamp.seconds;
 		el = searchResultFormat
 		    .replace('$tipid', r.tipid)
 		    .replace('$line', r.line)
