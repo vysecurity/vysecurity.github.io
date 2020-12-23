@@ -1,7 +1,6 @@
-//var searchResultFormat = '<tr><td>$machine</td><td>$line</td><td><a href="$link" target="_blank">YouTube</a></td></tr>';
+//var searchResultFormat = '<tr><td>$tipid</td><td>$line</td><td><a href="$link" target="_blank">YouTube</a></td></tr>';
 var searchResultFormat = '<tr><td>$tipid</td><td align="left">$line</td></tr>';
 var totalLimit = 250;
-var replaceStrings = ['HackTheBox - ', 'VulnHub - '];
 
 var controls = {
     oldColor: '',
@@ -29,11 +28,7 @@ var controls = {
         }
 
         dataset.forEach(e => {
-            for (i = 0; i < replaceStrings.length; i++) {
-                e.machine = e.machine.replace(replaceStrings[i], '');
-            }
-
-            if (e.line.toLowerCase().match(regex) || e.machine.toLowerCase().match(regex)) results.push(e);
+            if (e.line.toLowerCase().match(regex) || e.topid.toLowerCase().match(regex)) results.push(e);
         });
         return results;
     },
