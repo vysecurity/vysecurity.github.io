@@ -125,7 +125,10 @@ document.addEventListener('DOMContentLoaded', function() {
 	})
         .then((data) => {
 		console.log(data);
-        });
+        })
+	.catch((err) => {
+		console.log(err);
+	});
 
     form.submit(doSearch);
 
