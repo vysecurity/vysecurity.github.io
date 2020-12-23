@@ -1,5 +1,84 @@
-<html>
-<head><title>vysecurity rocks</title></head>
-<body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Search utility for IppSec's YouTube videos">
+	<meta name="keywords" content="ippsec, hacking, pentesting, hackthebox, htb">
+	<meta name="author" content="IppSec">
+
+	<link rel="stylesheet" href="style.css">
+
+	<title>IppSec - Search</title>
+</head>
+<body class="color-no-search">		
+	<div class="container">
+		
+		<div class="search">
+			<div class="header">
+				<h1>IPPSEC</h1>
+				<div class="social">
+					<a href="https://twitter.com/ippsec">Twitter</a>
+					&bullet;
+					<a href="https://www.patreon.com/ippsec">Patreon</a>
+					&bullet;
+					<a href="https://www.youtube.com/channel/UCa6eh7gCkpPo5XXUDfygQQA">Youtube</a>
+				</div>
+			</div>
+		
+			<div class="query">
+				<form class="searchForm" action="#">
+					<input type="text" class="search" placeholder="ENTER SEARCH TERM" autocomplete="false">
+				</form>
+
+			</div>
+
+			<div class="results">
+				<br>
+				<div class="noResults">
+					<h2>No Results Found</h2>
+				</div>
+				<div class="results-table">
+					
+					<table class="results">
+						<thead>
+							<tr>
+								<td width="33%">
+									Video/Course	
+								</td>
+								<td>
+									Description
+								</td>
+								<!--
+								<td>
+									Link
+								</td>-->
+							</tr>
+						</thead>
+						<tbody class="results">
+				
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<div class="subfooter">
+				<h3>Please consider supporting me on <a href="https://patreon.com/ippsec">Patreon</a></h3>
+			</div>
+		</div>
+		
+		<div class="footer">
+			&copy; ippSec and contributors 2019
+			<br>
+			Design by: <a href="https://twitter.com/hexf_me">@HexF_me</a>,
+			Original PoC: <a href="https://twitter.com/shell_ock">@Shell_ock</a>, <br />
+			Theme Inspiration: <a href="https://howsecureismypassword.net">DashLane - HowSecureIsMyPassword</a>
+			<br>
+			Found a bug? File it or fix it <a href="https://github.com/IppSec/ippsec.github.io/issues">here</a>
+		</div>
+	</div>
+
+	<script src="logic.js"></script>
 </body>
+
 </html>
