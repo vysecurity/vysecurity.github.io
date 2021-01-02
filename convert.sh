@@ -1,1 +1,1 @@
-cat result.csv | csvjson > dataset.json
+cat result.csv | csvjson -u 1 > dataset.json
