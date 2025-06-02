@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Wallpaper Creator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+            padding: 30px;
+        }
+
+        .controls {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            height: fit-content;
+        }
+
+        .control-group {
+            margin-bottom: 20px;
+        }
+
+        .control-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .control-group input,
+        .control-group select,
+        .control-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .control-group input:focus,
+        .control-group select:focus,
+        .control-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .control-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .color-input {
+            height: 50px !important;
+            cursor: pointer;
+        }
+
+        .canvas-container {
+            text-align: center;
+        }
+
+        #wallpaperCanvas {
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            max-width: 100%;
+            height: auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #56ab2f 0%, #a8e6cf 100%);
+            color: white;
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(86, 171, 47, 0.4);
+        }
+
+        .btn-info {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+        }
+
+        .btn-info:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+
+        .saved-designs {
+            margin-top: 30px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .saved-designs h3 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .design-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            margin-bottom: 10px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .design-name {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .design-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(231, 76, 60, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .button-group {
+                justify-content: center;
+            }
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background: #333;
+            color: #aaa;
+            font-size: 0.9em;
+            margin-top: 30px;
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+        }
+
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎨 Text Wallpaper Creator</h1>
+            <p>Create beautiful text-based wallpapers with custom styling</p>
+        </div>
+
+        <div class="main-content">
+            <div class="controls">
+                <div class="control-group">
+                    <label for="wallpaperText">Text Content:</label>
+                    <textarea id="wallpaperText" placeholder="Enter your text here...">Hello World!</textarea>
+                </div>
+
+                <div class="control-group">
+                    <label for="fontSize">Font Size:</label>
+                    <input type="range" id="fontSize" min="20" max="200" value="60">
+                    <span id="fontSizeValue">60px</span>
+                </div>
+
+                <div class="control-group">
+                    <label for="fontFamily">Font Family:</label>
+                    <select id="fontFamily">
+                        <option value="Arial">Arial</option>
+                        <option value="Helvetica">Helvetica</option>
+                        <option value="Times New Roman">Times New Roman</option>
+                        <option value="Georgia">Georgia</option>
+                        <option value="Verdana">Verdana</option>
+                        <option value="Courier New">Courier New</option>
+                        <option value="Impact">Impact</option>
+                        <option value="Comic Sans MS">Comic Sans MS</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label for="textColor">Text Color:</label>
+                    <input type="color" id="textColor" value="#ffffff" class="color-input">
+                </div>
+
+                <div class="control-group">
+                    <label for="backgroundColor">Background Color:</label>
+                    <input type="color" id="backgroundColor" value="#667eea" class="color-input">
+                </div>
+
+                <div class="control-group">
+                    <label for="textAlign">Text Alignment:</label>
+                    <select id="textAlign">
+                        <option value="center">Center</option>
+                        <option value="left">Left</option>
+                        <option value="right">Right</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label for="canvasWidth">Canvas Width:</label>
+                    <input type="number" id="canvasWidth" value="1920" min="100" max="4000">
+                </div>
+
+                <div class="control-group">
+                    <label for="canvasHeight">Canvas Height:</label>
+                    <input type="number" id="canvasHeight" value="1080" min="100" max="4000">
+                </div>
+
+                <div class="button-group">
+                    <button class="btn btn-primary" onclick="updateWallpaper()">Update Preview</button>
+                    <button class="btn btn-success" onclick="downloadWallpaper()">Download PNG</button>
+                    <button class="btn btn-info" onclick="saveDesign()">Save Design</button>
+                </div>
+
+                <div class="saved-designs">
+                    <h3>Saved Designs</h3>
+                    <div id="savedDesignsList"></div>
+                </div>
+            </div>
+
+            <div class="canvas-container">
+                <canvas id="wallpaperCanvas" width="1920" height="1080"></canvas>
+            </div>
+        </div>
+        <div class="footer">
+            <p>Created by <a href="https://github.com/vysecurity" target="_blank">@vysecurity</a>. Powered by HTML5 Canvas & JavaScript.</p>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('wallpaperCanvas');
+        const ctx = canvas.getContext('2d');
+        const fontSizeSlider = document.getElementById('fontSize');
+        const fontSizeValue = document.getElementById('fontSizeValue');
+
+        // Update font size display
+        fontSizeSlider.addEventListener('input', function() {
+            fontSizeValue.textContent = this.value + 'px';
+        });
+
+        // Auto-update preview when inputs change
+        const inputs = ['wallpaperText', 'fontSize', 'fontFamily', 'textColor', 'backgroundColor', 'textAlign', 'canvasWidth', 'canvasHeight'];
+        inputs.forEach(id => {
+            document.getElementById(id).addEventListener('input', updateWallpaper);
+        });
+
+        function updateWallpaper() {
+            const text = document.getElementById('wallpaperText').value;
+            const fontSize = document.getElementById('fontSize').value;
+            const fontFamily = document.getElementById('fontFamily').value;
+            const textColor = document.getElementById('textColor').value;
+            const backgroundColor = document.getElementById('backgroundColor').value;
+            const textAlign = document.getElementById('textAlign').value;
+            const canvasWidth = parseInt(document.getElementById('canvasWidth').value);
+            const canvasHeight = parseInt(document.getElementById('canvasHeight').value);
+
+            // Update canvas size
+            canvas.width = canvasWidth;
+            canvas.height = canvasHeight;
+
+            // Clear canvas and set background
+            ctx.fillStyle = backgroundColor;
+            ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+            // Set text properties
+            ctx.fillStyle = textColor;
+            ctx.font = `${fontSize}px ${fontFamily}`;
+            ctx.textAlign = textAlign;
+            ctx.textBaseline = 'middle';
+
+            // Calculate text position
+            let x;
+            switch(textAlign) {
+                case 'left':
+                    x = 50;
+                    break;
+                case 'right':
+                    x = canvasWidth - 50;
+                    break;
+                default: // center
+                    x = canvasWidth / 2;
+            }
+
+            // Handle multi-line text
+            const lines = text.split('\n');
+            const lineHeight = fontSize * 1.2;
+            const totalHeight = lines.length * lineHeight;
+            const startY = (canvasHeight - totalHeight) / 2 + lineHeight / 2;
+
+            lines.forEach((line, index) => {
+                const y = startY + (index * lineHeight);
+                ctx.fillText(line, x, y);
+            });
+        }
+
+        function downloadWallpaper() {
+            const link = document.createElement('a');
+            link.download = 'text-wallpaper.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+
+        function saveDesign() {
+            const designName = prompt('Enter a name for this design:');
+            if (!designName) return;
+
+            const design = {
+                name: designName,
+                text: document.getElementById('wallpaperText').value,
+                fontSize: document.getElementById('fontSize').value,
+                fontFamily: document.getElementById('fontFamily').value,
+                textColor: document.getElementById('textColor').value,
+                backgroundColor: document.getElementById('backgroundColor').value,
+                textAlign: document.getElementById('textAlign').value,
+                canvasWidth: document.getElementById('canvasWidth').value,
+                canvasHeight: document.getElementById('canvasHeight').value,
+                timestamp: new Date().toISOString()
+            };
+
+            // Get existing designs from localStorage
+            const savedDesigns = JSON.parse(localStorage.getItem('wallpaperDesigns') || '[]');
+            savedDesigns.push(design);
+            localStorage.setItem('wallpaperDesigns', JSON.stringify(savedDesigns));
+
+            displaySavedDesigns();
+            alert('Design saved successfully!');
+        }
+
+        function loadDesign(index) {
+            const savedDesigns = JSON.parse(localStorage.getItem('wallpaperDesigns') || '[]');
+            const design = savedDesigns[index];
+
+            if (design) {
+                document.getElementById('wallpaperText').value = design.text;
+                document.getElementById('fontSize').value = design.fontSize;
+                document.getElementById('fontFamily').value = design.fontFamily;
+                document.getElementById('textColor').value = design.textColor;
+                document.getElementById('backgroundColor').value = design.backgroundColor;
+                document.getElementById('textAlign').value = design.textAlign;
+                document.getElementById('canvasWidth').value = design.canvasWidth;
+                document.getElementById('canvasHeight').value = design.canvasHeight;
+
+                fontSizeValue.textContent = design.fontSize + 'px';
+                updateWallpaper();
+            }
+        }
+
+        function deleteDesign(index) {
+            if (confirm('Are you sure you want to delete this design?')) {
+                const savedDesigns = JSON.parse(localStorage.getItem('wallpaperDesigns') || '[]');
+                savedDesigns.splice(index, 1);
+                localStorage.setItem('wallpaperDesigns', JSON.stringify(savedDesigns));
+                displaySavedDesigns();
+            }
+        }
+
+        function displaySavedDesigns() {
+            const savedDesigns = JSON.parse(localStorage.getItem('wallpaperDesigns') || '[]');
+            const container = document.getElementById('savedDesignsList');
+
+            if (savedDesigns.length === 0) {
+                container.innerHTML = '<p style="color: #666; font-style: italic;">No saved designs yet.</p>';
+                return;
+            }
+
+            container.innerHTML = savedDesigns.map((design, index) => `
+                <div class="design-item">
+                    <div>
+                        <div class="design-name">${design.name}</div>
+                        <small style="color: #666;">${new Date(design.timestamp).toLocaleDateString()}</small>
+                    </div>
+                    <div class="design-actions">
+                        <button class="btn btn-info btn-small" onclick="loadDesign(${index})">Load</button>
+                        <button class="btn btn-danger btn-small" onclick="deleteDesign(${index})">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Initialize the app
+        updateWallpaper();
+        displaySavedDesigns();
+    </script>
+</body>
+</html>
